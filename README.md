@@ -2,4 +2,4 @@
 
 # Database Schema
 
-<insert schema here>
+# API Documentation
