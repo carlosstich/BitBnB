@@ -2,7 +2,59 @@
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+Table users {
+  id integer [primary key]
+  firstName varchar
+  lastName varchar
+  email varchar
+  username varchar
+  password varchar
+}
+
+Table spots {
+  id integer [primary key]
+  ownerId integer
+  address varchar
+  city varchar
+  state varchar
+  country varchar
+  lat decimal
+  lng decimal
+  name varchar
+  description text
+  price decimal
+  createdAt timestamp
+  updatedAt timestamp
+  avgRating float
+  previewImage varchar
+}
+
+Table images {
+  id integer [primary key]
+  spotId integer
+  url varchar
+  preview boolean
+}
+
+Table reviews {
+  id integer [primary key]
+  userId integer
+  spotId integer
+  review text
+  stars integer
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table bookings {
+  id integer [primary key]
+  spotId integer
+  userId integer
+  startDate date
+  endDate date
+  createdAt timestamp
+  updatedAt timestamp
+}
 
 ## API Documentation
 
