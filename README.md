@@ -59,6 +59,13 @@ Table bookings {
   updatedAt timestamp
 }
 
+Ref: spots.ownerId > users.id 
+Ref: images.spotId > spots.id 
+Ref: reviews.userId > users.id 
+Ref: reviews.spotId > spots.id 
+Ref: bookings.spotId > spots.id 
+Ref: bookings.userId > users.id 
+
 ## API Documentation
 
 ## USER AUTHENTICATION/AUTHORIZATION
