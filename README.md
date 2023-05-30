@@ -2,6 +2,9 @@
 
 ## Database Schema Design
 
+
+![DB Schema](https://github.com/carlosstich/BitBnB/blob/main/backend/Screenshot%202023-05-25%20at%205.32.50%20PM.png?raw=true))
+
 Table users {
   id integer [primary key]
   firstName varchar
@@ -55,6 +58,13 @@ Table bookings {
   createdAt timestamp
   updatedAt timestamp
 }
+
+Ref: spots.ownerId > users.id 
+Ref: images.spotId > spots.id 
+Ref: reviews.userId > users.id 
+Ref: reviews.spotId > spots.id 
+Ref: bookings.spotId > spots.id 
+Ref: bookings.userId > users.id 
 
 ## API Documentation
 
