@@ -3,68 +3,8 @@
 ## Database Schema Design
 
 
-![DB Schema](https://github.com/carlosstich/BitBnB/blob/dev/backend/BitBnB.png)
+![DB Schema](https://github.com/carlosstich/BitBnB/blob/main/backend/BitBnB.png)
 
-Table users {
-  id integer [primary key]
-  firstName varchar
-  lastName varchar
-  email varchar
-  username varchar
-  password varchar
-}
-
-Table spots {
-  id integer [primary key]
-  ownerId integer
-  address varchar
-  city varchar
-  state varchar
-  country varchar
-  lat decimal
-  lng decimal
-  name varchar
-  description text
-  price decimal
-  createdAt timestamp
-  updatedAt timestamp
-  avgRating float
-  previewImage varchar
-}
-
-Table images {
-  id integer [primary key]
-  spotId integer
-  url varchar
-  preview boolean
-}
-
-Table reviews {
-  id integer [primary key]
-  userId integer
-  spotId integer
-  review text
-  stars integer
-  createdAt timestamp
-  updatedAt timestamp
-}
-
-Table bookings {
-  id integer [primary key]
-  spotId integer
-  userId integer
-  startDate date
-  endDate date
-  createdAt timestamp
-  updatedAt timestamp
-}
-
-Ref: spots.ownerId > users.id
-Ref: images.spotId > spots.id
-Ref: reviews.userId > users.id
-Ref: reviews.spotId > spots.id
-Ref: bookings.spotId > spots.id
-Ref: bookings.userId > users.id
 
 ## API Documentation
 
@@ -527,8 +467,8 @@ Create and return a new image for a spot specified by id.
 * Require Authentication: true
 * Require proper authorization: Spot must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: /spots/:spotId/images
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -751,8 +691,8 @@ Returns all the reviews that belong to a spot specified by id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: spots/{spotId}/reviews
   * Body: none
 
 * Successful Response
@@ -807,7 +747,7 @@ Create and return a new review for a spot specified by id.
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: reviews/spot/{spotId}
+  * URL: spots/{spotId}/reviews
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -885,7 +825,7 @@ Create and return a new image for a review specified by id.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: POST
-  * URL: /images/review/{reviewId}
+  * URL: /review/{reviewId}/images
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -942,7 +882,7 @@ Update and return an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: PUT
-  * URL: /reviews/{reviewId}
+  * URL: /review/{reviewId}
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1008,7 +948,7 @@ Delete an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /reviews/{reviewId}
+  * URL: /review/{reviewId}
   * Body: none
 
 * Successful Response
@@ -1044,7 +984,7 @@ Return all the bookings that the current user has made.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /bookings
+  * URL: /bookings/{usersId}
   * Body: none
 
 * Successful Response
@@ -1088,8 +1028,8 @@ Return all the bookings for a spot specified by id.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /spots/{spotId}/bookings
   * Body: none
 
 * Successful Response: If you ARE NOT the owner of the spot.
@@ -1157,7 +1097,7 @@ Create and return a new booking from a spot specified by id.
 * Require proper authorization: Spot must NOT belong to the current user
 * Request
   * Method: POST
-  * URL: /bookings
+  * URL: /spots/{spotId}/bookings
   * Body:
 
     ```json
@@ -1379,7 +1319,7 @@ Delete an existing image for a Spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /spots/{spotId}/images/{imageId}
+  * URL: /spots/{spotId}/image
   * Body: none
 
 * Successful Response
@@ -1414,7 +1354,7 @@ Delete an existing image for a Review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: DELETE
-  * URL: reviews/{reviewId}/images/{imageId}
+  * URL: reviews/{reviewId}/image
   * Body: none
 
 * Successful Response
@@ -1447,8 +1387,8 @@ Return spots filtered by query parameters.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: spots/
   * Query Parameters
     * page: integer, minimum: 1, maximum: 10, default: 1
     * size: integer, minimum: 1, maximum: 20, default: 20
