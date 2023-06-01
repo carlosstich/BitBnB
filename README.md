@@ -3,7 +3,7 @@
 ## Database Schema Design
 
 
-![DB Schema](https://github.com/carlosstich/BitBnB/blob/main/backend/BitBnB.png?raw=true))
+![DB Schema](https://github.com/carlosstich/BitBnB/blob/main/backend/BitBnB.png))
 
 Table users {
   id integer [primary key]
