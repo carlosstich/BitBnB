@@ -11,7 +11,6 @@
     "start:production": "node ./bin/www",
     "build": "node psql-setup-script.js"
   },
-  
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -29,7 +28,7 @@
     "morgan": "^1.10.0",
     "per-env": "^1.0.2",
     "pg": "^8.11.0",
-    "sequelize": "^6.31.1"
+    "sequelize": "^6.32.0"
   },
   "devDependencies": {
     "dotenv-cli": "^7.2.1",
