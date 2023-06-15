@@ -9,7 +9,7 @@ const {
   requireAuth,
   restoreUser,
 } = require("../../utils/auth");
-const { Spot, Review } = require("../../db/models");
+const { Spot, Review, SpotImage } = require("../../db/models");
 
 const router = express.Router();
 
@@ -36,9 +36,19 @@ router.get("/current", requireAuth, async (req, res) => {
 });
 
 router.get("/:spotId", async (req, res) => {
+
+  const options = {
+    include: [
+        {
+            model: SpotImage,
+            attributes: ['id', 'url', 'preview']
+        },
+    ]};
+
   try {
     const { spotId } = req.params;
-    const spot = await Spot.findByPk(spotId);
+    const spot = await Spot.findByPk(req.params.spotId, options
+    );
     if (!spot) {
       return res.status(404).json({ message: "Spot couldnt be found" });
     }
