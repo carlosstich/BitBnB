@@ -14,13 +14,9 @@ const { Spot, Review } = require("../../db/models");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  try {
-    const spots = await Spot.findAll();
-    res.status(200).json({ Spots: spots });
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server error" });
-  }
-});
+  const spots = await Spot.findAll();
+  res.status(200).json({ Spots: spots });
+  });
 
 router.get("/current", requireAuth, async (req, res) => {
   try {
