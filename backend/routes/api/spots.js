@@ -58,6 +58,7 @@ router.get("/:spotId", async (req, res) => {
   }
 });
 
+//EDIT A SPOT
 router.put("/:spotId", requireAuth, theseSpotsCorrect, async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ error: "Unauthorized" });
