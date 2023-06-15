@@ -19,7 +19,7 @@ module.exports = {
           preview: true,
         },
         {
-          spotId: 1,
+          spotId: 2,
           url: "carlosstich.com",
           preview: true,
         },
