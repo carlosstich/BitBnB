@@ -136,5 +136,32 @@ router.get('/:spotId/reviews', async (req, res) => {
 
 })
 
+//Add an image to a spot based on the spots id
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+  try {
+    const { spotId } = req.params;
+    const { url, preview } = req.body;
+
+    const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+    if (spot.ownerId !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized - Spot doesn't belong to the current user" });
+    }
+    const newImage = await SpotImage.create({
+      spotId: spotId,
+      url: url,
+      preview: preview
+    });
+
+    res.status(200).json(newImage);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 
 module.exports = router;
