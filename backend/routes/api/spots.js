@@ -203,6 +203,29 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
   }
 });
 
+//Lets delete a spot
+
+router.delete('/:spotId', requireAuth, async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  const ourSpotId = req.params.spotId
+
+  //find the spot
+  const searchSpot = await Spot.findByPk(ourSpotId)
+  //Check if some even exist
+  if (!searchSpot) {
+    res.status(404).json({ message: "spot couldnt be found" })
+  }
+  //check if the current user owns the spot
+  if (searchSpot.ownerId !== req.user.id) {
+    res.status(401).json({ error: "You do not own this spot"})
+  }
+  //delete spot
+  await searchSpot.destroy()
+  res.status(200).json({ message: "Successfully deleted" });
+})
+
 
 
 module.exports = router;
