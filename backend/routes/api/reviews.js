@@ -9,15 +9,7 @@ const {
   requireAuth,
   restoreUser,
 } = require("../../utils/auth");
-const { Spot } = require("../../db/models");
-const { Review } = require("../../db/models");
-
-const {
-  setTokenCookie,
-  requireAuth,
-  restoreUser,
-} = require("../../utils/auth");
-const { Spot } = require("../../db/models");
+const { Review, User, Spot, ReviewImage } = require("../../db/models");
 
 const router = express.Router();
 
@@ -25,29 +17,29 @@ const router = express.Router();
 
 
 
-// router.get("/current", requireAuth, async (req, res) => {
-//     if (!req.user) {
-//       return res.status(401).json({ error: "Unauthorized" });
-//     }
-//     const user = req.user.id;
-//     const reviews = await Review.findAll({
-//         where: {userId: user},
-//         include: Spot,
-//     })
-//     res.status(200).json({ Reviews: reviews})
-// });
+router.get("/current", requireAuth, async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
 
-// router.post('/:spotId/reviews', requireAuth, thisReviewCorrect, async (req, res) => {
-//     if (!req.user) {
-//         return res.status(401).json({ error: "Unauthorized" });
-//       }
-//       const spotID = req.params.spotId
-//       const { review, stars } = req.body
-//       const newSpot = await Review.create({
-//         spotId: spotID, userId: req.user.id, review, stars
-//       })
-//       res.status(201).json(newSpot)
+    const userId = req.user.id;
+    const reviews = await Review.findAll({
+      where: { userId: userId },
+      include: [
+        { model: User },
+        { model: Spot },
+        { model: ReviewImage }
+      ]
+    });
 
-// })
+    res.status(200).json({ Reviews: reviews });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 
 module.exports = router;
