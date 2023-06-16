@@ -78,23 +78,27 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     const existingBookings = await Booking.findAll({
       where: {
         spotId,
-        id: { [Op.ne]: bookingId },
       },
     });
 
-    for (const existingBooking of existingBookings) {
+    const conflictingBooking = existingBookings.find(existingBooking => {
       if (
-        (existingBooking.startDate <= endDate && existingBooking.endDate >= startDate)
-        || (existingBooking.endDate >= startDate && existingBooking.startDate <= endDate)
+        (existingBooking.startDate <= endDate && existingBooking.endDate >= startDate) ||
+        (existingBooking.endDate >= startDate && existingBooking.startDate <= endDate)
       ) {
-        return res.status(403).json({
-          message: 'Sorry, this spot is already booked for the specified dates',
-          errors: {
-            startDate: 'Start date conflicts with an existing booking',
-            endDate: 'End date conflicts with an existing booking',
-          },
-        });
+        return true;
       }
+      return false;
+    });
+
+    if (conflictingBooking) {
+      return res.status(403).json({
+        message: 'Sorry, this spot is already booked for the specified dates',
+        errors: {
+          startDate: 'Start date conflicts with an existing booking',
+          endDate: 'End date conflicts with an existing booking',
+        },
+      });
     }
 
     booking.startDate = startDate;
@@ -103,10 +107,11 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
 
     res.status(200).json(booking);
   } catch (error) {
-    console.log(error);
+    console.log(error); 
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 //Delete that book
 router.delete('/:bookingId', requireAuth, async (req, res) => {
