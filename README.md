@@ -93,7 +93,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /login
+  * URL: /session
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -159,7 +159,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /signup
+  * URL: /users
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -289,7 +289,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /current
+  * URL: /spots/current
   * Body: none
 
 * Successful Response
@@ -636,7 +636,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /reviews/user
+  * URL: /reviews/current
   * Body: none
 
 * Successful Response
