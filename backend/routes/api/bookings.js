@@ -13,24 +13,153 @@ const { Review, User, Spot, ReviewImage, Booking } = require("../../db/models");
 
 const router = express.Router();
 
-router.get('/:userId', async (req, res) => {
-  try {
-    const userId = req.params.userId;
+// //Get all bookings
+// router.get('/:userId', requireAuth, async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
 
-    // Assuming you have a way to authenticate the current user and retrieve their ID
-    // You can use the `userId` to fetch the bookings associated with the user
+//     const bookings = await Booking.findAll({
+//       where: { userId },
+//       include: { model: Spot },
+//     });
+
+//     res.status(200).json({ Bookings: bookings });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+//get current users bookings
+router.get("/current", requireAuth, async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const userId = req.user.id;
+
     const bookings = await Booking.findAll({
-      where: { userId },
-      include: [{ model: Spot }],
+      where: { userId: userId },
     });
 
     res.status(200).json({ Bookings: bookings });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
 
+
+
+
+//edit a booking
+router.put('/:bookingId', requireAuth, async (req, res) => {
+  try {
+    const bookingId = req.params.bookingId;
+    const currentUser = req.user;
+    const { startDate, endDate } = req.body;
+
+    const booking = await Booking.findByPk(bookingId);
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking couldn\'t be found' });
+    }
+
+    if (booking.userId !== currentUser.id) {
+      return res.status(401).json({ message: 'Unauthorized: You don\'t own this booking' });
+    }
+
+    if (booking.endDate < new Date()) {
+      return res.status(403).json({ message: 'Past bookings can\'t be modified' });
+    }
+
+    const spotId = booking.spotId;
+    const existingBookings = await Booking.findAll({
+      where: {
+        spotId,
+        id: { [Op.ne]: bookingId },
+      },
+    });
+
+    for (const existingBooking of existingBookings) {
+      if (
+        (existingBooking.startDate <= endDate && existingBooking.endDate >= startDate)
+        || (existingBooking.endDate >= startDate && existingBooking.startDate <= endDate)
+      ) {
+        return res.status(403).json({
+          message: 'Sorry, this spot is already booked for the specified dates',
+          errors: {
+            startDate: 'Start date conflicts with an existing booking',
+            endDate: 'End date conflicts with an existing booking',
+          },
+        });
+      }
+    }
+
+    booking.startDate = startDate;
+    booking.endDate = endDate;
+    await booking.save();
+
+    res.status(200).json(booking);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+//Delete that book
+router.put('/:bookingId', requireAuth, async (req, res) => {
+  try {
+    const bookingId = req.params.bookingId;
+    const currentUser = req.user;
+    const { startDate, endDate } = req.body;
+
+    const booking = await Booking.findByPk(bookingId);
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking couldn\'t be found' });
+    }
+
+    if (booking.userId !== currentUser.id) {
+      return res.status(401).json({ message: 'Unauthorized: You don\'t own this booking' });
+    }
+
+    if (booking.endDate < new Date()) {
+      return res.status(403).json({ message: 'Past bookings can\'t be modified' });
+    }
+
+    const spotId = booking.spotId;
+    const existingBookings = await Booking.findAll({
+      where: {
+        spotId,
+        id: { [Op.ne]: bookingId },
+      },
+    });
+
+    for (const existingBooking of existingBookings) {
+      if (
+        (existingBooking.startDate <= endDate && existingBooking.endDate >= startDate)
+        || (existingBooking.endDate >= startDate && existingBooking.startDate <= endDate)
+      ) {
+        return res.status(403).json({
+          message: 'Sorry, this spot is already booked for the specified dates',
+          errors: {
+            startDate: 'Start date conflicts with an existing booking',
+            endDate: 'End date conflicts with an existing booking',
+          },
+        });
+      }
+    }
+
+    booking.startDate = startDate;
+    booking.endDate = endDate;
+    await booking.save();
+
+    res.status(200).json(booking);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;
