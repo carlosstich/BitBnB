@@ -16,7 +16,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const spots = await Spot.findAll();
   res.status(200).json({ Spots: spots });
-  });
+});
 
 router.get("/current", requireAuth, async (req, res) => {
   try {
@@ -36,19 +36,18 @@ router.get("/current", requireAuth, async (req, res) => {
 });
 
 router.get("/:spotId", async (req, res) => {
-
   const options = {
     include: [
-        {
-            model: SpotImage,
-            attributes: ['id', 'url', 'preview']
-        },
-    ]};
+      {
+        model: SpotImage,
+        attributes: ["id", "url", "preview"],
+      },
+    ],
+  };
 
   try {
     const { spotId } = req.params;
-    const spot = await Spot.findByPk(req.params.spotId, options
-    );
+    const spot = await Spot.findByPk(req.params.spotId, options);
     if (!spot) {
       return res.status(404).json({ message: "Spot couldnt be found" });
     }
@@ -94,52 +93,59 @@ router.post("/", requireAuth, theseSpotsCorrect, async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ error: "Unauthorized" });
   }
-  const { address, city, state, country, lat, lng, name, description, price } = req.body;
+  const { address, city, state, country, lat, lng, name, description, price } =
+    req.body;
   const record = await Spot.create({
-    ownerId: req.user.id, address, city, state, country, lat, lng, name, description, price,
+    ownerId: req.user.id,
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
   });
   res.status(201).json(record);
 });
 
-
-router.delete('/:spotId', requireAuth, async (req, res) => {
+router.delete("/:spotId", requireAuth, async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ error: "Unauthorized" });
   }
   try {
     const { spotId } = req.params;
-    const spot = await Spot.findByPk(spotId)
+    const spot = await Spot.findByPk(spotId);
 
-  if (!spot) {
-    return res.status(404).json({ message: "Spot Couldnt be found "})
-  }
-  Spot.destroy({
-    where: {
-      id: spotId
+    if (!spot) {
+      return res.status(404).json({ message: "Spot Couldnt be found " });
     }
-  })
-  res.status(200).json({ message: "Successfully deleted"})
-}
-  catch (error) {
-    res.status(500).json({ error: "Internal Server error"})
+    Spot.destroy({
+      where: {
+        id: spotId,
+      },
+    });
+    res.status(200).json({ message: "Successfully deleted" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server error" });
   }
-})
+});
 
 //get review based on spot
-router.get('/:spotId/reviews', async (req, res) => {
-  const { spotId } = req.params
-  const reviews = await Review.findAll( {
-    where: {spotId: spotId}
-  } )
+router.get("/:spotId/reviews", async (req, res) => {
+  const { spotId } = req.params;
+  const reviews = await Review.findAll({
+    where: { spotId: spotId },
+  });
   if (!reviews) {
-    return res.status(404).json({ message: "Spot couldnt be found"})
+    return res.status(404).json({ message: "Spot couldnt be found" });
   }
-  res.status(200).json({ Review: reviews})
-
-})
+  res.status(200).json({ Review: reviews });
+});
 
 //Create a review based on a spot
-router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+router.post("/:spotId/reviews", requireAuth, async (req, res) => {
   try {
     const { spotId } = req.params;
     const { review, stars } = req.body;
@@ -154,11 +160,13 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     const existingReview = await Review.findOne({
       where: {
         spotId: spotId,
-        userId: req.user.id
-      }
+        userId: req.user.id,
+      },
     });
     if (existingReview) {
-      return res.status(500).json({ message: "User already has a review for this spot" });
+      return res
+        .status(500)
+        .json({ message: "User already has a review for this spot" });
     }
 
     // Create the review
@@ -166,7 +174,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
       spotId: spotId,
       userId: req.user.id,
       review: review,
-      stars: stars
+      stars: stars,
     });
 
     res.status(201).json(newReview);
@@ -176,9 +184,8 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
   }
 });
 
-
 //Add an image to a spot based on the spots id
-router.post('/:spotId/images', requireAuth, async (req, res) => {
+router.post("/:spotId/images", requireAuth, async (req, res) => {
   try {
     const { spotId } = req.params;
     const { url, preview } = req.body;
@@ -188,12 +195,16 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
       return res.status(404).json({ message: "Spot couldn't be found" });
     }
     if (spot.ownerId !== req.user.id) {
-      return res.status(403).json({ error: "Unauthorized - Spot doesn't belong to the current user" });
+      return res
+        .status(403)
+        .json({
+          error: "Unauthorized - Spot doesn't belong to the current user",
+        });
     }
     const newImage = await SpotImage.create({
       spotId: spotId,
       url: url,
-      preview: preview
+      preview: preview,
     });
 
     res.status(200).json(newImage);
@@ -205,40 +216,39 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 //Lets delete a spot
 
-router.delete('/:spotId', requireAuth, async (req, res) => {
+router.delete("/:spotId", requireAuth, async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ error: "Unauthorized" });
   }
-  const ourSpotId = req.params.spotId
+  const ourSpotId = req.params.spotId;
 
   //find the spot
-  const searchSpot = await Spot.findByPk(ourSpotId)
+  const searchSpot = await Spot.findByPk(ourSpotId);
   //Check if some even exist
   if (!searchSpot) {
-    res.status(404).json({ message: "spot couldnt be found" })
+    res.status(404).json({ message: "spot couldnt be found" });
   }
   //check if the current user owns the spot
   if (searchSpot.ownerId !== req.user.id) {
-    res.status(401).json({ error: "You do not own this spot"})
+    res.status(401).json({ error: "You do not own this spot" });
   }
   //delete spot
-  await searchSpot.destroy()
+  await searchSpot.destroy();
   res.status(200).json({ message: "Successfully deleted" });
-})
+});
 
 //get books by spot
-router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+router.get("/:spotId/bookings", requireAuth, async (req, res) => {
   try {
     const spotId = req.params.spotId;
     const currentUser = req.user;
 
     const spot = await Spot.findByPk(spotId);
     if (!spot) {
-      return res.status(404).json({ message: 'Spot couldn\'t be found' });
+      return res.status(404).json({ message: "Spot couldn't be found" });
     }
 
     if (currentUser.id === spot.ownerId) {
-
       const bookings = await Booking.findAll({
         where: { spotId },
         include: { model: User },
@@ -246,22 +256,21 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
       res.status(200).json({ Bookings: bookings });
     } else {
-
       const bookings = await Booking.findAll({
         where: { spotId },
-        attributes: ['spotId', 'startDate', 'endDate'],
+        attributes: ["spotId", "startDate", "endDate"],
       });
 
       res.status(200).json({ Bookings: bookings });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 //Create a booking from spot
-router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   try {
     const spotId = req.params.spotId;
     const currentUser = req.user;
@@ -269,11 +278,13 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 
     const spot = await Spot.findByPk(spotId);
     if (!spot) {
-      return res.status(404).json({ message: 'Spot couldn\'t be found' });
+      return res.status(404).json({ message: "Spot couldn't be found" });
     }
 
     if (currentUser.id === spot.ownerId) {
-      return res.status(403).json({ message: 'Unauthorized: Spot belongs to the current user' });
+      return res
+        .status(403)
+        .json({ message: "Unauthorized: Spot belongs to the current user" });
     }
 
     // Check if the spot is already booked for the specified dates
@@ -285,14 +296,14 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 
     for (const booking of existingBookings) {
       if (
-        (booking.startDate <= endDate && booking.endDate >= startDate)
-        || (booking.endDate >= startDate && booking.startDate <= endDate)
+        (booking.startDate <= endDate && booking.endDate >= startDate) ||
+        (booking.endDate >= startDate && booking.startDate <= endDate)
       ) {
         return res.status(403).json({
-          message: 'Sorry, this spot is already booked for the specified dates',
+          message: "Sorry, this spot is already booked for the specified dates",
           errors: {
-            startDate: 'Start date conflicts with an existing booking',
-            endDate: 'End date conflicts with an existing booking',
+            startDate: "Start date conflicts with an existing booking",
+            endDate: "End date conflicts with an existing booking",
           },
         });
       }
@@ -308,9 +319,40 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     res.status(200).json(booking);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+//Detele Spot image
+router.delete("/:spotId/image", requireAuth, async (req, res) => {
+  try {
+    const spotId = req.params.spotId;
+
+
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    // Find the the image in spot image
+    const spotImage = await SpotImage.findOne({ where: { spotId } });
+
+    //
+    if (!spotImage) {
+      return res.status(404).json({ message: "Spot Image couldn't be found" });
+    }
+
+    // delte time
+    await spotImage.destroy();
+
+    res.status(200).json({ message: "Successfully deleted" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 
 
