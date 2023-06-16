@@ -113,25 +113,25 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
 
 router.delete('/:reviewId/image', requireAuth, async (req, res) => {
   const { reviewId } = req.params;
-  const userId = req.user.id; // Assuming the authenticated user's ID is stored in req.user
+  const userId = req.user.id;
 
-  // Check if the review with the specified ID exists
+
   const review = await Review.findByPk(reviewId, { include: ReviewImage });
   if (!review) {
     return res.status(404).json({ message: 'Review couldn\'t be found' });
   }
 
-  // Check if the review belongs to the current user (authorization check)
+  // Check if the review belongs to the  user
   if (review.userId !== userId) {
     return res.status(403).json({ message: 'You are not authorized to delete the image for this review' });
   }
 
-  // Check if the review has any images in the ReviewImages array
+  // see if review has any images in the ReviewImages array
   if (review.ReviewImages.length === 0) {
     return res.status(404).json({ message: 'Review Image couldn\'t be found' });
   }
 
-  // Delete the first image in the ReviewImages array (you can adjust the logic based on your requirements)
+  // Delete the first image
   const imageToDelete = review.ReviewImages[0];
   await imageToDelete.destroy();
 
