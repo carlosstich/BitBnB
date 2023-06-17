@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
-const { thisReviewCorrect } = require("./validators");
+const { thisReviewCorrect, thisBookingRequest } = require("./validators");
 
 const {
   setTokenCookie,
@@ -55,7 +55,7 @@ router.get("/current", requireAuth, async (req, res) => {
 
 
 //edit a booking
-router.put('/:bookingId', requireAuth, async (req, res) => {
+router.put('/:bookingId', requireAuth, thisBookingRequest, async (req, res) => {
   try {
     const bookingId = req.params.bookingId;
     const currentUser = req.user;
@@ -107,7 +107,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
 
     res.status(200).json(booking);
   } catch (error) {
-    console.log(error); 
+    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
