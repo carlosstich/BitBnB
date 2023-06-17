@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
-const { theseSpotsCorrect } = require("./validators");
+const { theseSpotsCorrect, thisBookingRequest } = require("./validators");
 
 const {
   setTokenCookie,
@@ -238,7 +238,7 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
 });
 
 //get books by spot
-router.get("/:spotId/bookings", requireAuth, async (req, res) => {
+router.get("/:spotId/bookings", requireAuth,  async (req, res) => {
   try {
     const spotId = req.params.spotId;
     const currentUser = req.user;
@@ -270,7 +270,7 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
 });
 
 //Create a booking from spot
-router.post("/:spotId/bookings", requireAuth, async (req, res) => {
+router.post("/:spotId/bookings", thisBookingRequest, requireAuth, async (req, res) => {
   try {
     const spotId = req.params.spotId;
     const currentUser = req.user;
