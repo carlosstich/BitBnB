@@ -115,7 +115,7 @@ router.put("/:bookingId", requireAuth, thisBookingRequest, async (req, res) => {
 router.delete("/:bookingId", requireAuth, async (req, res) => {
   const bookingId = req.params.bookingId;
   const userId = req.user.id;
-  const booking = await Booking.findByPk(bookingId);
+  const booking = await Booking.findByPk(bookingId, { include: Spot });
 
   if (!booking) {
     return res.status(404).json({ message: "Booking couldn't be found" });
