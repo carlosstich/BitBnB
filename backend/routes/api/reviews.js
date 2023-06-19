@@ -63,7 +63,17 @@ router.put('/:reviewId', requireAuth, thisReviewCorrect, async (req, res) => {
   searchReview.review = review;
   searchReview.stars = stars
   await searchReview.save();
-  res.status(200).json({ searchReview})
+  const response = {
+    id: searchReview.id,
+    userId: searchReview.userId,
+    spotId: searchReview.spotId,
+    review: searchReview.review,
+    stars: searchReview.stars,
+    createdAt: searchReview.createdAt,
+    updatedAt: searchReview.updatedAt,
+  };
+
+  res.status(200).json(response)
 
 } )
 
