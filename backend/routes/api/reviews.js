@@ -25,9 +25,10 @@ router.get("/current", requireAuth, async (req, res) => {
     const reviews = await Review.findAll({
       where: { userId: userId },
       include: [
-        { model: User },
+        { model: User,
+          attributes: {exclude: ["username", "email", "hashedPassword", "createdAt", "updatedAt"]}  },
         { model: Spot },
-        { model: ReviewImage }
+        { model: ReviewImage}
       ]
     });
 
@@ -37,6 +38,8 @@ router.get("/current", requireAuth, async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+//attributes: { exclude: ["ownerId", "name", "description"] }
 
 //Edit a spot
 router.put('/:reviewId', requireAuth, thisReviewCorrect, async (req, res) => {
