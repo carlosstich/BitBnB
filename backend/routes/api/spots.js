@@ -9,7 +9,7 @@ const {
   requireAuth,
   restoreUser,
 } = require("../../utils/auth");
-const { Spot, Review, SpotImage, Booking } = require("../../db/models");
+const { Spot, Review, SpotImage, Booking, User, ReviewImage } = require("../../db/models");
 
 const router = express.Router();
 
@@ -27,6 +27,7 @@ router.get("/current", requireAuth, async (req, res) => {
     const userId = req.user.id;
     const spots = await Spot.findAll({
       where: { ownerId: userId },
+      attributes: { exclude: ["ownerId", "name", "description"] }
     });
 
     res.status(200).json({ Spots: spots });
@@ -110,38 +111,57 @@ router.post("/", requireAuth, theseSpotsCorrect, async (req, res) => {
   res.status(201).json(record);
 });
 
-router.delete("/:spotId", requireAuth, async (req, res) => {
-  if (!req.user) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-  try {
-    const { spotId } = req.params;
-    const spot = await Spot.findByPk(spotId);
+// router.delete("/:spotId", requireAuth, async (req, res) => {
+//   if (!req.user) {
+//     return res.status(401).json({ error: "Unauthorized" });
+//   }
+//   try {
+//     const { spotId } = req.params;
+//     const spot = await Spot.findByPk(spotId);
 
-    if (!spot) {
-      return res.status(404).json({ message: "Spot Couldnt be found " });
-    }
-    Spot.destroy({
-      where: {
-        id: spotId,
-      },
-    });
-    res.status(200).json({ message: "Successfully deleted" });
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server error" });
-  }
-});
+//     if (!spot) {
+//       return res.status(404).json({ message: "Spot Couldnt be found " });
+//     }
+//     Spot.destroy({
+//       where: {
+//         id: spotId,
+//       },
+//     });
+//     res.status(200).json({ message: "Successfully deleted" });
+//   } catch (error) {
+//     res.status(500).json({ error: "Internal Server error" });
+//   }
+// });
 
 //get review based on spot
 router.get("/:spotId/reviews", async (req, res) => {
-  const { spotId } = req.params;
-  const reviews = await Review.findAll({
-    where: { spotId: spotId },
-  });
-  if (!reviews) {
-    return res.status(404).json({ message: "Spot couldnt be found" });
+  try {
+    const { spotId } = req.params;
+
+    // Find the spot
+    const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    const reviews = await Review.findAll({
+      where: { spotId: spotId },
+      include: [
+        { model: User },
+        {
+          model: ReviewImage,
+          attributes: {
+            exclude: ["reviewId", "createdAt", "updatedAt"],
+          },
+        },
+      ],
+    });
+
+    res.status(200).json({ Reviews: reviews });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-  res.status(200).json({ Review: reviews });
 });
 
 //Create a review based on a spot
@@ -217,25 +237,33 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
 //Lets delete a spot
 
 router.delete("/:spotId", requireAuth, async (req, res) => {
-  if (!req.user) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-  const ourSpotId = req.params.spotId;
+  try {
+    const spotId = req.params.spotId;
+    const userId = req.user.id;
 
-  //find the spot
-  const searchSpot = await Spot.findByPk(ourSpotId);
-  //Check if some even exist
-  if (!searchSpot) {
-    res.status(404).json({ message: "spot couldnt be found" });
+    // Find the spot
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    // Check if the current user owns the spot
+    if (spot.ownerId !== userId) {
+      return res.status(401).json({ error: "You do not own this spot" });
+    }
+
+    // Delete the spot
+    await spot.destroy();
+
+    res.status(200).json({ message: "Successfully deleted" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-  //check if the current user owns the spot
-  if (searchSpot.ownerId !== req.user.id) {
-    res.status(401).json({ error: "You do not own this spot" });
-  }
-  //delete spot
-  await searchSpot.destroy();
-  res.status(200).json({ message: "Successfully deleted" });
 });
+
+
 
 //get books by spot
 router.get("/:spotId/bookings", requireAuth,  async (req, res) => {
@@ -324,34 +352,32 @@ router.post("/:spotId/bookings", thisBookingRequest, requireAuth, async (req, re
 });
 
 //Detele Spot image
-router.delete("/:spotId/image", requireAuth, async (req, res) => {
-  try {
-    const spotId = req.params.spotId;
+// router.delete("/:spotId/image", requireAuth, async (req, res) => {
+//   try {
+//     const spotId = req.params.spotId;
+//     const spot = await Spot.findByPk(spotId);
 
+//     if (!spot) {
+//       return res.status(404).json({ message: "Spot couldn't be found" });
+//     }
 
-    const spot = await Spot.findByPk(spotId);
+//     // Find the the image in spot image
+//     const spotImage = await SpotImage.findOne({ where: { spotId } });
 
-    if (!spot) {
-      return res.status(404).json({ message: "Spot couldn't be found" });
-    }
+//     //
+//     if (!spotImage) {
+//       return res.status(404).json({ message: "Spot Image couldn't be found" });
+//     }
 
-    // Find the the image in spot image
-    const spotImage = await SpotImage.findOne({ where: { spotId } });
+//     // delte time
+//     await spotImage.destroy();
 
-    //
-    if (!spotImage) {
-      return res.status(404).json({ message: "Spot Image couldn't be found" });
-    }
-
-    // delte time
-    await spotImage.destroy();
-
-    res.status(200).json({ message: "Successfully deleted" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+//     res.status(200).json({ message: "Successfully deleted" });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 
 

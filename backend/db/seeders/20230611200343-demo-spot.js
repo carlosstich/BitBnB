@@ -2,7 +2,7 @@
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // define your schema in options object
+  options.schema = process.env.SCHEMA;  
 
 }
 
@@ -21,7 +21,7 @@ module.exports = {
           country: "United States",
           lat: 29.9610972,
           lng: -90.0570562,
-          name: "French Quarter Charm",
+          name: "French Quarter Casa",
           description:
             "Experience the charm of the French Quarter with this cozy pad",
           price: 200,
@@ -36,7 +36,7 @@ module.exports = {
           country: "United States",
           lat: 29.943276,
           lng: -90.067732,
-          name: "Luxurious Garden District Mansion",
+          name: " Garden District Mansion",
           description:
             "Indulge in luxury at this stunning thang",
           price: 500,

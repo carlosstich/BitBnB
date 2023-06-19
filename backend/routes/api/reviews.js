@@ -15,8 +15,6 @@ const router = express.Router();
 
 //Get all the reveiwws from a current USer
 
-
-
 router.get("/current", requireAuth, async (req, res) => {
   try {
     if (!req.user) {
@@ -71,7 +69,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
   try {
     const { reviewId } = req.params;
     const { url } = req.body;
-
     const review = await Review.findByPk(reviewId);
     if (!review) {
       return res.status(404).json({ message: "Review couldn't be found" });
@@ -97,7 +94,6 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
   const ourReviewId = req.params.reviewId;
-
   const searchReview = await Review.findByPk(ourReviewId)
 
   if (!searchReview) {

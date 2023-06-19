@@ -38,7 +38,6 @@ router.get("/current", requireAuth, async (req, res) => {
     }
 
     const userId = req.user.id;
-
     const bookings = await Booking.findAll({
       where: { userId: userId },
     });
@@ -46,16 +45,12 @@ router.get("/current", requireAuth, async (req, res) => {
     res.status(200).json({ Bookings: bookings });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-
-
-
-
 //edit a booking
-router.put('/:bookingId', requireAuth, thisBookingRequest, async (req, res) => {
+router.put("/:bookingId", requireAuth, thisBookingRequest, async (req, res) => {
   try {
     const bookingId = req.params.bookingId;
     const currentUser = req.user;
@@ -63,15 +58,19 @@ router.put('/:bookingId', requireAuth, thisBookingRequest, async (req, res) => {
 
     const booking = await Booking.findByPk(bookingId);
     if (!booking) {
-      return res.status(404).json({ message: 'Booking couldn\'t be found' });
+      return res.status(404).json({ message: "Booking couldn't be found" });
     }
 
     if (booking.userId !== currentUser.id) {
-      return res.status(401).json({ message: 'Unauthorized: You don\'t own this booking' });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: You don't own this booking" });
     }
 
     if (booking.endDate < new Date()) {
-      return res.status(403).json({ message: 'Past bookings can\'t be modified' });
+      return res
+        .status(403)
+        .json({ message: "Past bookings can't be modified" });
     }
 
     const spotId = booking.spotId;
@@ -81,10 +80,12 @@ router.put('/:bookingId', requireAuth, thisBookingRequest, async (req, res) => {
       },
     });
 
-    const conflictingBooking = existingBookings.find(existingBooking => {
+    const conflictingBooking = existingBookings.find((existingBooking) => {
       if (
-        (existingBooking.startDate <= endDate && existingBooking.endDate >= startDate) ||
-        (existingBooking.endDate >= startDate && existingBooking.startDate <= endDate)
+        (existingBooking.startDate <= endDate &&
+          existingBooking.endDate >= startDate) ||
+        (existingBooking.endDate >= startDate &&
+          existingBooking.startDate <= endDate)
       ) {
         return true;
       }
@@ -93,51 +94,48 @@ router.put('/:bookingId', requireAuth, thisBookingRequest, async (req, res) => {
 
     if (conflictingBooking) {
       return res.status(403).json({
-        message: 'Sorry, this spot is already booked for the specified dates',
+        message: "Sorry, this spot is already booked for the specified dates",
         errors: {
-          startDate: 'Start date conflicts with an existing booking',
-          endDate: 'End date conflicts with an existing booking',
+          startDate: "Start date conflicts with an existing booking",
+          endDate: "End date conflicts with an existing booking",
         },
       });
     }
-
     booking.startDate = startDate;
     booking.endDate = endDate;
     await booking.save();
-
     res.status(200).json(booking);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-
 //Delete that book
-router.delete('/:bookingId', requireAuth, async (req, res) => {
+router.delete("/:bookingId", requireAuth, async (req, res) => {
+  const bookingId = req.params.bookingId;
+  const userId = req.user.id;
+  const booking = await Booking.findByPk(bookingId);
 
+  if (!booking) {
+    return res.status(404).json({ message: "Booking couldn't be found" });
+  }
 
-    const bookingId = req.params.bookingId;
-    const userId = req.user.id;
+  if (booking.userId !== userId && booking.Spot.ownerId !== userId) {
+    return res
+      .status(403)
+      .json({ message: "Unauthorized to delete this booking" });
+  }
 
-    const booking = await Booking.findByPk(bookingId);
+  if (booking.startDate <= new Date()) {
+    return res
+      .status(403)
+      .json({ message: "Bookings that have been started can't be deleted" });
+  }
 
-    if (!booking) {
-      return res.status(404).json({ message: 'Booking couldn\'t be found' });
-    }
+  await booking.destroy();
 
-    if (booking.userId !== userId && booking.Spot.ownerId !== userId) {
-      return res.status(403).json({ message: 'Unauthorized to delete this booking' });
-    }
-
-    if (booking.startDate <= new Date()) {
-      return res.status(403).json({ message: 'Bookings that have been started can\'t be deleted' });
-    }
-
-    await booking.destroy();
-
-    res.status(200).json({ message: 'Successfully deleted' });
+  res.status(200).json({ message: "Successfully deleted" });
 });
-
 
 module.exports = router;
