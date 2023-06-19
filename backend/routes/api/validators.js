@@ -28,15 +28,24 @@ const thisBookingRequest = [
     .withMessage('End date is required')
     .isDate()
     .withMessage('End date must be a valid date')
-    .custom((value, { req }) => {
+    .custom((req) => {
       const startDate = new Date(req.body.startDate);
-      const endDate = new Date(value);
+      const endDate = new Date(req.body.endDate);
       if (endDate <= startDate) {
         throw new Error('End date cannot be on or before the start date');
       }
       return true;
-    }),
+    })
+    // .custom((value, { req }) => {
+    //   const startDate = new Date(req.body.startDate);
+    //   const endDate = new Date(value);
+    //   if (endDate <= startDate) {
+    //     throw new Error('End date cannot be on or before the start date');
+    //   }
+    //   return true;
+    // }),
 ];
+
 
 module.exports = {
   theseSpotsCorrect,

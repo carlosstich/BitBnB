@@ -3,7 +3,7 @@
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // define your schema in options object
+  options.schema = process.env.SCHEMA;  
 }
 
 module.exports = {
@@ -46,7 +46,7 @@ module.exports = {
         type: Sequelize.DECIMAL
       },
       avgRating: {
-        type: Sequelize.FLOAT 
+        type: Sequelize.FLOAT
       },
       previewImage: {
         type: Sequelize.STRING
