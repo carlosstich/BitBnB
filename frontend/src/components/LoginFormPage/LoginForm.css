@@ -1,16 +1,16 @@
-/* Reset default margin and padding */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
 
-  /* Add a background color to the whole page */
+  /* background color */
   body {
     background-color: #f3f4f6;
   }
 
-  /* Style the login form container */
+  /* login form container */
   form {
     display: flex;
     flex-direction: column;
@@ -19,11 +19,11 @@
     margin: 2rem auto;
     background-color: #ffffff;
     border-radius: 8px;
-    width: 300px;
+    width: 350px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
-  /* Style the form labels */
+
   label {
     font-size: 1rem;
     font-weight: 600;
@@ -32,7 +32,7 @@
     flex-direction: column;
   }
 
-  /* Style the form input fields */
+
   input {
     padding: 0.5rem;
     margin-bottom: 1rem;
@@ -40,23 +40,22 @@
     border-radius: 4px;
   }
 
-  /* Style the form error messages */
+
   p {
     color: red;
     font-size: 0.8rem;
   }
 
-  /* Style the login button */
   button {
     padding: 0.5rem 1rem;
-    background-color: #007bff;
+    background-color: #FF5A5F;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
 
-  /* Change the button color when hovered */
+
   button:hover {
-    background-color: #0056b3;
+    background-color: #FF5A5F;
   }
