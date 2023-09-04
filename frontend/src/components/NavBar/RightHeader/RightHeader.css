@@ -1,0 +1,14 @@
+.createASpot {
+    font-weight: bold;
+    color: rgb(2, 15, 255);
+    border: none;
+    cursor: pointer;
+    margin-right: 20px;
+    background-color: white;
+}
+
+.rightHeader {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}

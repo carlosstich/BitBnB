@@ -2,7 +2,7 @@
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  
+  options.schema = process.env.SCHEMA;
 
 }
 
@@ -13,21 +13,36 @@ module.exports = {
     return queryInterface.bulkInsert(
       options,
       [
-        {
-          spotId: 1,
-          url: "carlosstich.com",
-          preview: true,
-        },
-        {
-          spotId: 2,
-          url: "carlosstich.com",
-          preview: true,
-        },
-        {
-          spotId: 1,
-          url: "carlosstich.com",
-          preview: true,
-        },
+        {"spotId": 1, "url": "/images/inside1.png", "preview": true},
+        {"spotId": 1, "url": "/images/inside2.png", "preview": false},
+        {"spotId": 1, "url": "/images/inside3.png", "preview": false},
+        {"spotId": 2, "url": "/images/inside4.png", "preview": true},
+        {"spotId": 2, "url": "/images/inside5.png", "preview": false},
+        {"spotId": 2, "url": "/images/inside6.png", "preview": false},
+        {"spotId": 3, "url": "/images/inside7.png", "preview": true},
+        {"spotId": 3, "url": "/images/inside8.png", "preview": false},
+        {"spotId": 3, "url": "/images/inside9.png", "preview": false},
+        {"spotId": 4, "url": "/images/inside10.png", "preview": true},
+        {"spotId": 4, "url": "/images/inside11.png", "preview": false},
+        {"spotId": 4, "url": "/images/inside12.png", "preview": false},
+        {"spotId": 5, "url": "/images/inside13.png", "preview": true},
+        {"spotId": 5, "url": "/images/inside14.png", "preview": false},
+        {"spotId": 5, "url": "/images/inside15.png", "preview": false},
+        {"spotId": 6, "url": "/images/inside16.png", "preview": true},
+        {"spotId": 6, "url": "/images/inside17.png", "preview": false},
+        {"spotId": 6, "url": "/images/inside18.png", "preview": false},
+        {"spotId": 1, "url": "/images/inside19.png", "preview": false},
+        {"spotId": 2, "url": "/images/inside20.png", "preview": false},
+        {"spotId": 3, "url": "/images/inside21.png", "preview": false},
+        {"spotId": 1, "url": "/images/inside4.png", "preview": true},
+        {"spotId": 2, "url": "/images/inside1.png", "preview": true},
+        {"spotId": 3, "url": "/images/inside1.png", "preview": true},
+        {"spotId": 4, "url": "/images/inside1.png", "preview": true},
+        {"spotId": 4, "url": "/images/inside2.png", "preview": false},
+        {"spotId": 5, "url": "/images/inside1.png", "preview": true},
+        {"spotId": 5, "url": "/images/inside2.png", "preview": false},
+        {"spotId": 6, "url": "/images/inside1.png", "preview": true},
+        {"spotId": 6, "url": "/images/inside2.png", "preview": false}
       ],
       {}
     );

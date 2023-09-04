@@ -1,0 +1,109 @@
+
+.TopBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #333;
+    color: #fff;
+    z-index: 100;
+}
+
+
+  .SpotDetailsWrapper {
+    padding-top: 60px;
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+
+.SpotDetails {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px;
+}
+
+
+  .SpotNameLocation h2, .SpotNameLocation p {
+    color: black;
+  }
+
+  .SpotNameLocation {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    padding-top: 60px;
+}
+
+
+  .SpotDetailsBody {
+    display: flex;
+    flex-direction: column;
+    margin-top: 48px;
+  }
+
+  h2 {
+    font-size: 21px;
+    color: black;
+    font-family: 'Poppins-light', sans-serif;
+  }
+
+  .SpotImages {
+    display: flex;
+    height: 51vh;
+    width: 100%;
+    margin-top: 18px;
+    gap: 8px;
+    border-radius: 12.5px;
+    overflow: hidden;
+  }
+
+  .SpotImagesLeft {
+    object-fit: cover;
+    width: 50%;
+  }
+
+  .SpotImagesRight {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 8px;
+  }
+
+  .SpotImagesRightRow {
+    display: flex;
+    height: 50%;
+    gap: 8px;
+  }
+
+  .SpotImagesRightRow > img {
+    object-fit: cover;
+    width: 50%;
+  }
+
+  .black-line {
+    border: 0;
+    border-top: 5px solid black;
+}
+
+.rating-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.average-rating {
+  margin: 0 10px;
+}
+
+.total-reviews {
+  margin-left: 10px;
+}
+
+.ReviewsSection {
+  /* im gonna add to this later */
+}

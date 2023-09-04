@@ -1,0 +1,53 @@
+.star {
+    font-size: 15px;
+    align-self: center;
+}
+
+.reviews {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0px;
+    overflow-wrap: break-word;
+    margin-bottom: 20px;
+}
+
+.review {
+    color: black;
+    padding-right: 75px;
+    width: 100%;
+    margin-top: 24px;
+    margin-bottom: 14px;
+}
+
+.review p {
+    color: black
+}
+
+
+.reviewHeader {
+    display: flex;
+}
+
+.createReviewButton {
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    margin-left: 15px;
+    padding-left: 15px;
+    padding-top: 8px;
+    font-size: 16px;
+    background-color: gray;
+}
+
+.user {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user>button {
+    align-self: center;
+    cursor: pointer;
+    background-color: white;
+    font-weight: bold;
+    border: none;
+}

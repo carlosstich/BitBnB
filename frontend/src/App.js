@@ -6,6 +6,14 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import SpotMap from "./components/SpotMap/SpotMap";
+import SpotDetails from "./components/SpotDetails/SpotDetails";
+import Modals from "./components/Modals";
+import SpotForm from "./components/NewSpot";
+import EditSpot from "./components/Modals/UpdateSpot";
+import ManageMySpots from "./components/CurrentSpots/CurrentSpots";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -16,15 +24,17 @@ function App() {
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
+      <Modals />
       {isLoaded && (
         <Switch>
-          <Route path="/login">
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
+          <Route path="/spots/new"><SpotForm /></Route>
+          <Route path="/spots/:spotId/edit"><EditSpot /></Route>
+          <Route path="/spots/:spotId"><SpotDetails /></Route>
+          <Route path="/login"><LoginFormPage /></Route>
+          <Route path="/signup"><SignupFormPage /></Route>
+          <Route path="/current"><ManageMySpots /></Route>
+
+          <Route exact path="/"><SpotMap /></Route>
         </Switch>
       )}
     </>

@@ -1,0 +1,69 @@
+.reviewButtons>button {
+    width: 50%;
+}
+
+.reviewForm {
+    /* height: 618px; */
+    width: 568px;
+    display: flex;
+    flex-direction: column;
+}
+
+.reviewForm>.reviewHeader {
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    height: 64px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.reviewForm>.reviewHeader img {
+    margin-left: 25px;
+    cursor: pointer;
+}
+
+.reviewForm>.reviewHeader div {
+    margin-left: 190px;
+}
+
+.reviewTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-left: 25px;
+}
+
+.reviewButton {
+    height: 50px;
+    width: 520px;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    border-style: none;
+    border-radius: 10px;
+
+    font-weight: bold;
+    font-size: 16px;
+
+    color: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgb(229, 30, 78), rgb(214, 4, 101));
+
+    align-self: center;
+}
+
+.reviewFirstFieldWrapper {
+    /* border-top-left-radius: 10px; */
+    /* border-top-right-radius: 10px; */
+    /* border: 1px solid #afafaf; */
+    width: 520px;
+    align-self: center;
+    margin-top: 20px;
+}
+
+.reviewFirstField {
+    /* border: 0px; */
+    outline: none;
+}

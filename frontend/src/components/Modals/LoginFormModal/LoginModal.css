@@ -1,0 +1,33 @@
+.loginForm {
+    max-width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.field, .loginButton {
+    max-width: 100%;
+    width: auto;
+    box-sizing: border-box;
+    margin: 5px 0;
+}
+
+.logInHeader img {
+    width: 20px;
+    height: auto;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.closeIcon {
+    width: 20px;
+    height: auto;
+    cursor: pointer;
+}
+
+.loginForm .loginButton:disabled {
+    background-color: grey !important;
+    cursor: not-allowed !important;
+}

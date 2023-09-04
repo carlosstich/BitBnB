@@ -1,0 +1,40 @@
+.modal-overlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center both horizontally and vertically */
+}
+
+.deleteForm {
+    position: absolute;
+    background-color: #fff;
+    padding: 30px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    left: 50%; /* Move to the center horizontally */
+    transform: translateX(-50%); /* Shift back to center */
+}
+
+
+  .deleteFormButton {
+    height: 50px;
+    width: 280px;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-style: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgb(245, 0, 0), rgb(245, 0, 0));
+    align-self: center;
+  }
