@@ -20,7 +20,7 @@ export default function CurrentSpotMapItem({ spot }) {
   const openDeleteModal = (event) => {
 
     event.stopPropagation();
-    dispatch(setSpotForEditing(spot)); 
+    dispatch(setSpotForEditing(spot));
     dispatch(setDeleteSpotModal(true));
   };
 
@@ -47,25 +47,26 @@ export default function CurrentSpotMapItem({ spot }) {
         <div className="SpotMapItemPrice">
           <strong>${spot.price}</strong> night
         </div>
-        <button
-          className="UpdateButton"
-          onClick={(e) => {
-            e.stopPropagation();
-
-            navigateToEdit();
-          }}
-        >
-          Update
-        </button>
-        <button
-          className="DeleteButton"
-          onClick={(e) => {
-            e.stopPropagation();
-            openDeleteModal(e);
-          }}
-        >
-          Delete Spot
-        </button>
+        <div className="SpotMapItemButtons">
+  <button
+    className="UpdateButton"
+    onClick={(e) => {
+      e.stopPropagation();
+      navigateToEdit();
+    }}
+  >
+    Update
+  </button>
+  <button
+    className="DeleteButton"
+    onClick={(e) => {
+      e.stopPropagation();
+      openDeleteModal(e);
+    }}
+  >
+    Delete Spot
+  </button>
+</div>
       </div>
     </div>
   );
