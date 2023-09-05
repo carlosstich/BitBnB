@@ -1,10 +1,10 @@
 .signupForm {
-    max-width: 100%;  /* Make it responsive */
-    padding: 10px;  /* Add some padding */
-    box-sizing: border-box;  /* Include padding and border in element's total width and height */
+    max-width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;  /* Center the content */
+    align-items: center; 
 }
 
 .signupButton {
@@ -52,4 +52,3 @@
     background-color: grey !important;
     cursor: not-allowed !important;
 }
-

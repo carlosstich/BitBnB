@@ -21,12 +21,10 @@ export default function SpotDetails() {
     dispatch(getReviews(spotId));
   }, [dispatch, spotId]);
 
-
-
   if (!spotDetails || !spotDetails.Spot) {
     return (
       <div className="SpotDetails">
-        <h1>{!Number.isNaN(+spotId) ? "Spot" : "Resource"} not found</h1>
+        <h1>Spot not found</h1>
       </div>
     );
   }
@@ -37,9 +35,7 @@ export default function SpotDetails() {
   const nonPreviwImages =
     spotDetails.Spot.SpotImages?.filter((image, i) => !image.preview) || [];
 
-
-
-    const averageStars = reviews
+  const averageStars = reviews
     ? reviews.reduce((acc, review) => acc + review.stars, 0) / reviews.length
     : 0;
 
@@ -76,29 +72,55 @@ export default function SpotDetails() {
             </div>
           </div>
         </div>
-        <div className="SpotDetailsBody">
-          <h2>
-            Hosted by {spotDetails.Spot.User?.firstName}{" "}
-            {spotDetails.Spot.User?.lastName}
-          </h2>
-          <div className="SpotDetailsDescription">
-            {spotDetails.Spot.description}
+        <div className="SpotDetailsBodyAndPriceWrapper">
+          <div className="SpotDetailsBody">
+            <h2>
+              Hosted by {spotDetails.Spot.User?.firstName}{" "}
+              {spotDetails.Spot.User?.lastName}
+            </h2>
+            <div className="SpotDetailsDescription">
+              {spotDetails.Spot.description}
+            </div>
           </div>
+          <div className="PriceAndRatingBox">
+  <div className="PriceRatingWrapper">
+    <div className="PriceTopRight">
+      Price: ${spotDetails.Spot.price}
+    </div>
+    <div className="RatingTopRight">
+      {averageStars.toFixed(1)} <i className="fa fa-star"></i>
+    </div>
+  </div>
+  <button className="ReserveButton" onClick={() => alert("Feature coming soon!")}>
+    Reserve
+  </button>
+</div>
 
         </div>
+
+
         <hr className="black-line" />
-
         <div className="ReviewsSection">
-          <div className="rating-wrapper">
-            <i className="fa fa-star" aria-hidden="true"></i>
-            <span className="average-rating">{averageStars.toFixed(1)}</span>
-            <span className="total-reviews">{`${totalReviews} Reviews`}</span>
-          </div>
+  <div className="rating-wrapper">
+    <i className="fa fa-star" aria-hidden="true"></i>
+    {totalReviews === 0 ? (
+      <span className="average-rating">New</span>
+    ) : (
+      <>
+        <span className="average-rating">{averageStars.toFixed(1)}</span>
+        <span className="dot-divider">&middot;</span>
+        <span className="total-reviews">
+          {totalReviews === 1 ? `${totalReviews} Review` : `${totalReviews} Reviews`}
+        </span>
+      </>
+    )}
+  </div>
+  {reviews && spotDetails && (
+    <Reviews spot={spotDetails} reviews={reviews} />
+  )}
+</div>
 
-          {reviews && spotDetails && (
-            <Reviews spot={spotDetails} reviews={reviews} />
-          )}
-        </div>
+
       </div>
     </div>
   );

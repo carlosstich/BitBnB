@@ -8,9 +8,8 @@ import { setDeleteSpotModal } from "../../../store/ui";
 export default function DeleteSpotForm() {
     const dispatch = useDispatch();
     const history = useHistory();
-    const spot = useSelector(state => state.ui.spot); 
-const spotId = spot ? spot.id : null;
-
+    const spot = useSelector(state => state.ui.spot);
+    const spotId = spot ? spot.id : null;
     const [errors, setErrors] = useState([]);
 
     const handleSubmit = (e) => {
@@ -24,17 +23,25 @@ const spotId = spot ? spot.id : null;
             .catch(errors => setErrors(Object.values(errors.errors)));
     };
 
-
+    const handleClose = () => {
+        dispatch(setDeleteSpotModal(false));
+    };
 
     return (
-
-
         <form className="deleteForm" onSubmit={handleSubmit}>
-            <h1 style={{ width: "300px" }}>Are you sure you want to delete this spot?</h1>
+            <h1>Confirm Delete</h1>
+            <h2 style={{ width: "300px" }}>Are you sure you want to delete this spot?</h2> 
             <ul>
                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>
-            <button className="deleteFormButton" type="submit">Delete spot</button>
-        </form >
+            <button className="deleteFormButton" type="submit">Yes (Delete Spot)</button>
+            <button
+                className="cancelDeleteFormButton"
+                type="button"
+                onClick={handleClose}
+            >
+                No (Keep Spot)
+            </button>
+        </form>
     );
 }

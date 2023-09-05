@@ -1,70 +1,81 @@
-.signupButtons>button {
-    width: 50%;
-}
 
-.signupForm {
-    width: 568px;
-    display: flex;
-    flex-direction: column;
-}
+.page-container {
+    margin: auto;
+    max-width: 600px;
+  }
 
-.signupForm>.signupHeader {
-    font-size: 15px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    height: 64px;
-    padding: 0px;
-    margin: 0px;
-}
 
-.signupForm>.signupHeader img {
-    margin-left: 25px;
-    cursor: pointer;
-}
-
-.signupForm>.signupHeader div {
-    margin-left: 220px;
-}
-
-.signupTitle {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 30px;
-    margin-left: 25px;
-}
-
-.signupButton {
-    height: 50px;
-    width: 520px;
-    cursor: pointer;
-    margin-bottom: 30px;
-    margin-top: 30px;
-
-    border-style: none;
-    border-radius: 10px;
-
-    font-weight: bold;
-    font-size: 16px;
-
-    color: rgb(255, 255, 255);
-    background: linear-gradient(90deg, rgb(229, 30, 78), rgb(214, 4, 101));
-
-    align-self: center;
-}
-
-.center-title {
+  .newspot-center-title,
+  .newspot-center-title-sub,
+  .center-subtitle {
     text-align: center;
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
+    margin-bottom: 20px;
+  }
 
-.center-subtitle {
-    text-align: center;
-    font-size: 1rem;
-    margin-bottom: 2rem;
-}
+  .newspot-center-title {
+    font-size: 24px;
+  }
 
-.error-message {
+  .newspot-center-title-sub,
+  .center-subtitle {
+    font-size: 18px;
+  }
+
+
+  .spotForm {
+    width: 100%;
+  }
+
+
+  input,
+  textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+  }
+
+
+  .error-message {
     color: red;
+    font-size: 14px;
+    text-align: right;
+  }
+
+
+  .city-state-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+
+  .city-state-container input {
+    width: 48%;
+  }
+
+
+  .description-title,
+  .description-subtitle,
+  .name-title,
+  .name-subtitle,
+  .price-title,
+  .price-subtitle,
+  .image-title,
+  .image-subtitle {
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+
+  button[type="submit"] {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  button[type="submit"]:hover {
+    background-color: darkred;
   }

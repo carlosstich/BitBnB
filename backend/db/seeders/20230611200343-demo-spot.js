@@ -51,7 +51,7 @@ module.exports = {
           country: "United States",
           lat: 29.960226,
           lng: -90.058854,
-          name: "Historic Jazz Quarter Loft",
+          name: "Jazz Quarter Loft",
           description:
             "Immerse yourself in the cultural richness of New Orleans by staying in our stylish loft located in the Warehouse District. This contemporary space boasts industrial design elements, exposed brick walls, and floor-to-ceiling windows that let in an abundance of natural light. Just steps away from world-class galleries, the WWII Museum, and some of the city’s trendiest bars and restaurants, our loft offers the ideal base for explorers and business travelers alike. Take advantage of amenities like a rooftop pool, a state-of-the-art gym, and secure parking. Come stay with us and discover the modern side of New Orleans, while still being only minutes away from its historic heart.",
           price: 300,

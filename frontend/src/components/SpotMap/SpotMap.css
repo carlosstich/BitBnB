@@ -2,7 +2,7 @@
     display: grid;
     column-gap: 24px;
     row-gap: 40px;
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .SpotMapItem>img {
@@ -230,3 +230,14 @@
 .SpotMapItemPrice {
     margin-top: 4px;
 }
+
+.tooltip {
+    position: fixed; 
+    z-index: 1;
+    background-color: #555;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    text-align: center;
+    pointer-events: none;
+  }

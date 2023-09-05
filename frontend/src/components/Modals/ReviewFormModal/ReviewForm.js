@@ -34,7 +34,7 @@ export default function ReviewForm() {
     return (
         <form className="reviewForm" onSubmit={handleSubmit}>
             <div className="reviewHeader">
-                <div>Leave a review</div>
+                <div>How was your stay?</div>
             </div>
             <div className="line"></div>
             {errors.length > 0 && <ul>
@@ -64,10 +64,11 @@ export default function ReviewForm() {
                 onChange={(e) => setReview(e.target.value)}
                 required
                 style={{ height: "150px" }}
-                placeholder="Review"
+                placeholder="Leave your review here"
             />
 
-            <button className="reviewButton" type="submit">Leave a  review</button>
+<button className="reviewButton" type="submit" disabled={review.length < 10 || !stars}>Submit your review</button>
+
         </form>
     );
 }

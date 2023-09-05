@@ -37,7 +37,6 @@ export default function SpotForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
-
     if (validateForm()) {
       const body = { address, city, state, country, name, description, price };
       try {
@@ -51,7 +50,8 @@ export default function SpotForm() {
 
   return (
     <div className="page-container">
-      <h1 className="center-title">Create a new Spot</h1>
+      <h1 className="newspot-center-title">Create a new Spot</h1>
+      <h2 className="newspot-center-title-sub">Where's your place Located?</h2>
       <p className="center-subtitle">Guests will only get your exact address once they book a reservation.</p>
       <form className="spotForm" onSubmit={handleSubmit}>
         {errors.length > 0 && (
@@ -78,52 +78,85 @@ export default function SpotForm() {
         />
         <span className="error-message">{validationErrors.address}</span>
 
-        <input
-          type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="City"
-        />
-        <span className="error-message">{validationErrors.city}</span>
+        <div className="city-state-container">
+          <input
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="City"
+          />
+          <span className="error-message">{validationErrors.city}</span>
 
-        <input
-          type="text"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
-          placeholder="State"
-        />
-        <span className="error-message">{validationErrors.state}</span>
+          <input
+            type="text"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+            placeholder="State"
+          />
+          <span className="error-message">{validationErrors.state}</span>
+        </div>
+        <hr />
 
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
-        />
-        <span className="error-message">{validationErrors.name}</span>
 
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Description"
-        />
-        <span className="error-message">{validationErrors.description}</span>
 
-        <input
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="Price"
-        />
-        <span className="error-message">{validationErrors.price}</span>
 
-        <input
-          type="text"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-          placeholder="Image URL"
-        />
-        <span className="error-message">{validationErrors.imageUrl}</span>
+        <div className="description-section">
+  <h3 className="description-title">Describe your place to guests</h3>
+  <p className="description-subtitle">Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood</p>
+  <textarea
+    className="textarea-description"
+    value={description}
+    onChange={(e) => setDescription(e.target.value)}
+    placeholder="Please write at least 30 characters"
+  />
+  <span className="error-message">{validationErrors.description}</span>
+  <hr />
+</div>
+<div className="name-section">
+  <h4 className="name-title">Create a title for your spot</h4>
+  <p className="name-subtitle">Catch guests' attention with a spot title that highlights what makes your place special</p>
+  <input
+    className="input-name"
+    type="text"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    placeholder="Name of your spot"
+  />
+  <span className="error-message">{validationErrors.name}</span>
+  <hr />
+</div>
+
+
+<div className="price-section">
+  <h4 className="price-title">Set a base price for your spot</h4>
+  <p className="price-subtitle">Competitive pricing can help your listing stand out and rank higher in search results.</p>
+  <div className="input-price-wrapper">
+    <span className="input-price-symbol">$</span>
+    <input
+      className="input-price"
+      type="number"
+      value={price}
+      onChange={(e) => setPrice(e.target.value)}
+      placeholder="Price per night (USD)"
+    />
+  </div>
+  <span className="error-message">{validationErrors.price}</span>
+  <hr />
+</div>
+
+
+<div className="image-section">
+  <h4 className="image-title">Liven up your spot with photos</h4>
+  <p className="image-subtitle">Submit a link to at least one photo to publish your spot.</p>
+  <input
+    type="text"
+    value={imageUrl}
+    onChange={(e) => setImageUrl(e.target.value)}
+    placeholder="Preview Image URL"
+  />
+  <span className="error-message">{validationErrors.imageUrl}</span>
+</div>
+
 
         <button type="submit">Create Spot</button>
       </form>

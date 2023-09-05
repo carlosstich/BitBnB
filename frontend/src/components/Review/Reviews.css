@@ -47,7 +47,7 @@
 .user>button {
     align-self: center;
     cursor: pointer;
-    background-color: white;
+    background-color: gray;
     font-weight: bold;
     border: none;
 }
