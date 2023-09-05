@@ -51,3 +51,37 @@
     font-weight: bold;
     border: none;
 }
+
+
+
+.user > button {
+    align-self: center;
+    cursor: pointer;
+    background-color: gray;
+    font-weight: bold;
+    border: none;
+}
+
+
+.user {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.user > h4 {
+    margin-right: 10px;
+}
+
+.user > .createdAt {
+    font-size: 14px;
+    color: rgb(3, 3, 3);
+}
+
+.user > button {
+    align-self: center;
+    cursor: pointer;
+    background-color: gray;
+    font-weight: bold;
+    border: none;
+}

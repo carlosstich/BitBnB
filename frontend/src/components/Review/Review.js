@@ -16,14 +16,21 @@ export default function Review({ user, review }) {
   };
 
   const onDeleteConfirmed = async () => {
-    await dispatch(deleteReview(review)); 
+    await dispatch(deleteReview(review));
     setIsModalOpen(false);
   };
+
+  const createdAtDate = new Date(review.createdAt);
+  const formattedCreatedAt = createdAtDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+  });
 
   return (
     <div className="review">
       <div className="user">
         <h4>{review.User.firstName}</h4>
+        <span className="createdAt">{formattedCreatedAt}</span>
         {user && user.id === review.User.id && (
           <button className="button" onClick={onOpenModal}>
             Delete review
