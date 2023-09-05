@@ -62,7 +62,7 @@ export default function EditSpot() {
         const body = { address, city, state, country, name, description, price };
         try {
             const newSpot = await dispatch(putSpot(spotId, body));
-          history.push(`/spots/${newSpot.id}`);
+          history.push(`/spots/${spotId}`);
         } catch (err) {
           setErrors(Object.values(err.errors));
         }

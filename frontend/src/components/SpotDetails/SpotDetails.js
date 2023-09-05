@@ -85,42 +85,51 @@ export default function SpotDetails() {
           <div className="PriceAndRatingBox">
   <div className="PriceRatingWrapper">
     <div className="PriceTopRight">
-      Price: ${spotDetails.Spot.price}
+      Price: ${spotDetails.Spot.price} night
     </div>
     <div className="RatingTopRight">
-      {averageStars.toFixed(1)} <i className="fa fa-star"></i>
+      {totalReviews === 0 ? (
+        "New"
+      ) : (
+        <>
+          {averageStars.toFixed(1)} <i className="fa fa-star"></i>
+        </>
+      )}
     </div>
   </div>
-  <button className="ReserveButton" onClick={() => alert("Feature coming soon!")}>
+  <button
+    className="ReserveButton"
+    onClick={() => alert("Feature coming soon!")}
+  >
     Reserve
   </button>
 </div>
-
         </div>
-
 
         <hr className="black-line" />
         <div className="ReviewsSection">
-  <div className="rating-wrapper">
-    <i className="fa fa-star" aria-hidden="true"></i>
-    {totalReviews === 0 ? (
-      <span className="average-rating">New</span>
-    ) : (
-      <>
-        <span className="average-rating">{averageStars.toFixed(1)}</span>
-        <span className="dot-divider">&middot;</span>
-        <span className="total-reviews">
-          {totalReviews === 1 ? `${totalReviews} Review` : `${totalReviews} Reviews`}
-        </span>
-      </>
-    )}
-  </div>
-  {reviews && spotDetails && (
-    <Reviews spot={spotDetails} reviews={reviews} />
-  )}
-</div>
-
-
+          <div className="rating-wrapper">
+            <i className="fa fa-star" aria-hidden="true"></i>
+            {totalReviews === 0 ? (
+              <span className="average-rating">New</span>
+            ) : (
+              <>
+                <span className="average-rating">
+                  {averageStars.toFixed(1)}
+                </span>
+                <span className="dot-divider">&middot;</span>
+                <span className="total-reviews">
+                  {totalReviews === 1
+                    ? `${totalReviews} Review`
+                    : `${totalReviews} Reviews`}
+                </span>
+              </>
+            )}
+          </div>
+          {reviews && spotDetails && (
+            <Reviews spot={spotDetails} reviews={reviews} />
+          )}
+        </div>
       </div>
     </div>
   );

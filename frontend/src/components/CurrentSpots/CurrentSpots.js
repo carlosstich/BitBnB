@@ -4,7 +4,7 @@ import { NavLink, Link } from "react-router-dom";
 import Header from "../NavBar/TopBar";
 import { getSpots } from "../../store/spots";
 import CurrentSpotMapItem from "./CurrentSpotItem";
-import DeleteSpotFormModal from "../Modals/DeleteSpot/DeleteSpotModal";  
+import DeleteSpotFormModal from "../Modals/DeleteSpot/DeleteSpotModal";
 import "./CurrentSpots.css";
 
 export default function ManageMySpots() {
@@ -24,7 +24,7 @@ export default function ManageMySpots() {
     <>
       <Header className="TopBar" />
       <div className="ManageMySpotsHeader">
-        <h1>Manage Your Spots</h1>
+        <h1>Manage Spots</h1>
         <Link to="/spots/new">
           <button className="CreateNewSpotButton">Create a New Spot</button>
         </Link>
