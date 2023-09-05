@@ -3,7 +3,6 @@
 }
 
 .reviewForm {
-    /* height: 618px; */
     width: 568px;
     display: flex;
     flex-direction: column;
@@ -55,15 +54,11 @@
 }
 
 .reviewFirstFieldWrapper {
-    /* border-top-left-radius: 10px; */
-    /* border-top-right-radius: 10px; */
-    /* border: 1px solid #afafaf; */
     width: 520px;
     align-self: center;
     margin-top: 20px;
 }
 
 .reviewFirstField {
-    /* border: 0px; */
     outline: none;
 }

@@ -12,11 +12,7 @@
     border-radius: 12px;
 }
 
-.SpotMapItem>img {
-    object-fit: cover;
-    border-radius: 12px;
-    width: 100%;
-}
+
 
 @media screen and (min-width: 1880px) {
     .homepageHeader {
@@ -232,7 +228,7 @@
 }
 
 .tooltip {
-    position: fixed; 
+    position: fixed;
     z-index: 1;
     background-color: #555;
     color: white;
